@@ -11,3 +11,5 @@ Redmine::Plugin.register :catalyst_csat do
   end
   menu :project_menu, :CSATs, { controller: 'csats', action: 'index' }, caption: 'CSAT Report', param: :project_id
 end
+
+require_relative './app/services/project'

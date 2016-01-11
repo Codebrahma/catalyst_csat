@@ -1,0 +1,57 @@
+<h2>
+  <%= @project.name %> - Customer satisfaction report submission
+</h2>
+<div class="box tabular">
+  <%= form_tag("/csats", method: "POST") do %>
+    <input type="hidden" value="<%= params[:project_id] %>" name="project_id"/>
+    <p>
+      <label>Did we deliver what we promised? <span class="required">*</span></label>
+      <% [1, 0].each do | i | %>
+        <label class="floating">
+          <input type="radio" value="<%= i %>" name="survey[delivered_as_promised]">
+          <% if i == 0 %>
+           No
+          <% else %>
+           Yes
+          <% end %>
+        </label>
+      <% end %>
+    </p>
+    <br><br>
+    <p>
+      <label>Did we deliver on time? <span class="required">*</span></label>
+      <% [1, 0].each do | i | %>
+        <label class="floating">
+          <input type="radio" value="<%= i %>" name="survey[delivered_on_time]">
+          <% if i == 0 %>
+           No
+          <% else %>
+           Yes
+          <% end %>
+        </label>
+      <% end %>
+    </p>
+    <br><br>
+    <p>
+      <label>How satisfied are you? <span class="required">*</span></label>
+      <% [1, 2, 3].each do | i | %>
+       <label class="floating">
+         <input type="radio" value="<%= i %>" name="survey[satisfaction]"> <%= i %>
+       </label>
+      <% end %>
+    </p>
+    <br><br>
+    <p>
+      <label>What did we do well? </label>
+      <textarea name="survey[pros]"></textarea>
+    </p>
+    <br><br>
+    <p>
+      <label>What can we do better?</label>
+      <textarea name="survey[improvements]"></textarea>
+    </p>
+    <p>
+      <input type="submit" value="Submit"/>
+    </p>
+  <% end %>
+</div>
