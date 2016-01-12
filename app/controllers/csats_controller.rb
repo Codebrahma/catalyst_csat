@@ -5,6 +5,7 @@ class CsatsController < ApplicationController
   before_filter :load_using_encrypted_id, only: [:new, :create]
 
   def index
+    @csats = Csat.where(project_id: @project.id).includes(:survey)
   end
 
   def new
@@ -14,7 +15,7 @@ class CsatsController < ApplicationController
   def create
     survey = Survey.new(survey_params)
     if survey.save
-      Csat.create(project_id: @project.id, survey_id: survey.id)
+      Csat.create(project_id: @project.id, survey_id: survey.id, created_at: Time.now)
       flash[:notice] = 'Thank You for your feedback.'
       redirect_to '/'
     else

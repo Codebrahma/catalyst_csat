@@ -1,5 +1,23 @@
+<style>
+  table.csat-history {
+    border: 1px solid #888;
+  }
+  table.csat-history td {
+    border: 1px solid #888;
+    font-weight: bold;
+    color: #333;
+  }
+  .delivered-as-promised.zero, .delivered-on-time.zero, .satisfaction.one {
+    background-color: red;
+  }
+  .delivered-as-promised.one, .delivered-on-time.one, .satisfaction.three {
+    background-color: lightgreen;
+  }
+  .satisfaction.two {
+    background-color: orange;
+  }
+</style>
 <h2>CSAT</h2>
-
 <div class="box tabular">
   <fieldset>
     <legend>
@@ -39,12 +57,26 @@
   </fieldset>
   <fieldset>
     <legend>
-      History
+      Submissions
     </legend>
-  </fieldset>
-  <fieldset>
-    <legend>
-      Statistics
-    </legend>
+    <table class="csat-history">
+      <thead>
+        <th>Delivered as promised</th>
+        <th>Delivered on time</th>
+        <th>Customer Satisfaction</th>
+        <th>Submitted on</th>
+      </thead>
+      <tbody>
+        <% classes = {'0' => 'zero', '1' => 'one', '2' => 'two', '3' => 'three'} %>
+        <% @csats.each do | csat | %>
+          <tr>
+            <td class="delivered-as-promised <%= classes[csat.survey.delivered_as_promised.to_s] %>"><%= csat.survey.delivered_as_promised %></td>
+            <td class="delivered-on-time <%= classes[csat.survey.delivered_on_time.to_s] %>"><%= csat.survey.delivered_on_time %></td>
+            <td class="satisfaction <%= classes[csat.survey.satisfaction.to_s] %>"><%= csat.survey.satisfaction %></td>
+            <td class="submitted-on"><%= csat.created_at.strftime('%b %d, %Y') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </fieldset>
 </div>
