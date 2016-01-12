@@ -5,8 +5,46 @@
     <legend>
       Configuration
     </legend>
-    <%= form_tag("/csat_configs", method: "PUT") do %>
-    
+    <% if @csat_config.id %>
+      <% submission_method = 'PUT' %>
+    <% else %>
+      <% submission_method = 'POST' %>
     <% end %>
+    <%= form_tag("/csat_configs/#{@csat_config.id}", method: submission_method) do %>
+      <input type="hidden" value="<%= @project.id %>" name="csat_config[project_id]">
+      <p>
+        <label>Custom email message</label>
+        <textarea name="csat_config[message]"><%=@csat_config.message%></textarea>
+      </p>
+      <p>
+        <label>Frequency</label>
+        <select name="csat_config[frequency]">
+          <% ['manual', 'daily', 'weekly', 'monthly'].each do | f | %>
+            <% if f == @csat_config.frequency %>
+              <option value="<%= f %>" selected="selected"><%= f %></option>
+            <% else %>
+              <option value="<%= f %>"><%= f %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </p>
+      <p>
+        <label>To</label>
+        <input type="email" name="csat_config[to_email]" value="<%= @csat_config.to_email %>" placeholder="Receiver email"/>
+      </p>
+      <p>
+        <input type="submit" value="Submit"/>
+      </p>
+    <% end %>
+  </fieldset>
+  <fieldset>
+    <legend>
+      History
+    </legend>
+  </fieldset>
+  <fieldset>
+    <legend>
+      Statistics
+    </legend>
   </fieldset>
 </div>

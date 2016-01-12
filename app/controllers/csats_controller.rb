@@ -27,6 +27,7 @@ class CsatsController < ApplicationController
 
   def load_project
     @project = ::Project.find_by(identifier: params[:project_id])
+    @project_encrypted_id = ::Services::Project.new(@project).encrypted_id
   end
 
   def load_using_encrypted_id
@@ -35,7 +36,7 @@ class CsatsController < ApplicationController
   end
 
   def load_csat_config
-    @csat_config = CsatConfig.find_by(project_id: @project.id)
+    @csat_config = CsatConfig.find_by(project_id: @project.id) || CsatConfig.new
   end
 
   def survey_params

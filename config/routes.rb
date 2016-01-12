@@ -3,3 +3,6 @@
 resources :csats, only: [:index, :new, :create] do
 
 end
+resources :csat_configs, only: [:create, :update] do
+
+end
