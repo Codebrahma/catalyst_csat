@@ -1,5 +1,7 @@
 class CsatsController < ApplicationController
+  # before_filter :authorize, only: :index
   before_filter :load_project, :authorize, only: :index
+  before_filter :load_csat_config, :authorize, only: :index
   before_filter :load_using_encrypted_id, only: [:new, :create]
 
   def index
@@ -24,12 +26,16 @@ class CsatsController < ApplicationController
   private
 
   def load_project
-    @project = ::Project.find(params[:project_id])
+    @project = ::Project.find_by(identifier: params[:project_id])
   end
 
   def load_using_encrypted_id
     id = ::Services::Project.find_by_encrypted_id(params[:project_id])
     @project = ::Project.find(id) if id
+  end
+
+  def load_csat_config
+    @csat_config = CsatConfig.find_by(project_id: @project.id)
   end
 
   def survey_params
