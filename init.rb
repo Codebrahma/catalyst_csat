@@ -10,9 +10,13 @@ Redmine::Plugin.register :catalyst_csat do
   author_url 'http://example.com/about'
 
   project_module :csats do
-    permission :view_csats, csats: :index
+    permission :view_csats, :csats => :index
+    permission :create_csat_configs, :csat_configs => :create
+    permission :trigger_csat_configs, :csat_configs => :trigger
+    permission :update_csat_configs, :csat_configs => :update
   end
   menu :project_menu, :CSATs, { controller: 'csats', action: 'index' }, caption: 'CSAT', param: :project_id
+
 end
 require_relative './app/workers/daily_csat_worker'
 DailyCsatWorker.perform_async

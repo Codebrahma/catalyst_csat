@@ -1,6 +1,6 @@
 class CsatConfigsController < ApplicationController
-  before_filter :load_related_project, only: [:create, :update]
-  before_filter :load_csat_config, only: [:update, :trigger]
+  before_filter :load_related_project, :authorize, only: [:create]
+  before_filter :load_csat_config, :authorize, only: [:update, :trigger]
 
   def create
     if @project.present? and CsatConfig.create(csat_config_params).id?
@@ -30,6 +30,9 @@ class CsatConfigsController < ApplicationController
 
   def load_csat_config
     @csat_config = CsatConfig.find(params[:id])
+    if @csat_config.id?
+      @project = @csat_config.project
+    end
   end
 
   def load_related_project
