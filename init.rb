@@ -12,9 +12,11 @@ Redmine::Plugin.register :catalyst_csat do
   project_module :csats do
     permission :view_csats, csats: :index
   end
-  menu :project_menu, :CSATs, { controller: 'csats', action: 'index' }, caption: 'CSAT Report', param: :project_id
-
-  DailyCsatWorker.perform_async
-  MonthlyCsatWorker.perform_async
-  WeeklyCsatWorker.perform_async
+  menu :project_menu, :CSATs, { controller: 'csats', action: 'index' }, caption: 'CSAT', param: :project_id
 end
+require_relative './app/workers/daily_csat_worker'
+DailyCsatWorker.perform_async
+require_relative './app/workers/weekly_csat_worker'
+WeeklyCsatWorker.perform_async
+require_relative './app/workers/monthly_csat_worker'
+MonthlyCsatWorker.perform_async

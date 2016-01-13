@@ -32,7 +32,8 @@
       <input type="hidden" value="<%= @project.id %>" name="csat_config[project_id]">
       <p>
         <label>Custom email message</label>
-        <textarea name="csat_config[message]"><%=@csat_config.message || CsatConfig.default_message%></textarea>
+        <% csat_message = @csat_config.message.blank? ? CsatConfig.default_message : @csat_config.message %>
+        <textarea name="csat_config[message]"><%= csat_message %></textarea>
       </p>
       <p>
         <label>Frequency</label>
@@ -53,6 +54,16 @@
       <p>
         <input type="submit" value="Submit"/>
       </p>
+    <% end %>
+    <% if @csat_config.id %>
+    <hr>
+      <%= form_tag("/csat_configs/#{@csat_config.id}/trigger", method: 'put') do %>
+        <p>
+          <label> Manually trigger email </label>
+
+          <input type="submit" value="Trigger Email"/>
+        </p>
+      <% end %>
     <% end %>
   </fieldset>
   <fieldset>

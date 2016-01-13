@@ -1,6 +1,6 @@
 class CsatConfigsController < ApplicationController
   before_filter :load_related_project, only: [:create, :update]
-  before_filter :load_csat_config, only: [:update]
+  before_filter :load_csat_config, only: [:update, :trigger]
 
   def create
     if @project.present? and CsatConfig.create(csat_config_params).id?
@@ -9,6 +9,12 @@ class CsatConfigsController < ApplicationController
       flash[:warning] = "CSAT details could not be saved. Please try again."
     end
     redirect_to "/csats?project_id=#{@project.identifier}"
+  end
+
+  def trigger
+    CsatMailer.csat_link(@csat_config, [@csat_config.to_email]).deliver rescue nil
+    flash[:notice] = "CSAT email triggered successfully."
+    redirect_to "/csats?project_id=#{@csat_config.project.identifier}"
   end
 
   def update
