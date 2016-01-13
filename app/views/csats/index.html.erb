@@ -32,7 +32,7 @@
       <input type="hidden" value="<%= @project.id %>" name="csat_config[project_id]">
       <p>
         <label>Custom email message</label>
-        <textarea name="csat_config[message]"><%=@csat_config.message%></textarea>
+        <textarea name="csat_config[message]"><%=@csat_config.message || CsatConfig.default_message%></textarea>
       </p>
       <p>
         <label>Frequency</label>

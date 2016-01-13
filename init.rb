@@ -1,3 +1,6 @@
+require_relative './app/services/project'
+require_relative './app/models/csat_mailer'
+
 Redmine::Plugin.register :catalyst_csat do
   name 'Catalyst CSAT plugin'
   author 'Abhishek Sarkar'
@@ -10,6 +13,8 @@ Redmine::Plugin.register :catalyst_csat do
     permission :view_csats, csats: :index
   end
   menu :project_menu, :CSATs, { controller: 'csats', action: 'index' }, caption: 'CSAT Report', param: :project_id
-end
 
-require_relative './app/services/project'
+  DailyCsatWorker.perform_async
+  MonthlyCsatWorker.perform_async
+  WeeklyCsatWorker.perform_async
+end

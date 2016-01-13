@@ -10,6 +10,10 @@ module Services
       }, self.class.encrypted_identifier_salt)
     end
 
+    def csat_url
+      Setting.protocol + '://' + Setting.host_name + '/csats/new?project_id=' + self.encrypted_id
+    end
+
     def self.find_by_encrypted_id(eid)
       JWT.decode(eid, encrypted_identifier_salt)[0]['id'] rescue nil
     end
