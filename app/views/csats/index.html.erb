@@ -75,6 +75,8 @@
         <th>Delivered as promised</th>
         <th>Delivered on time</th>
         <th>Customer Satisfaction</th>
+        <th>What did we do well</th>
+        <th>What can we do better</th>
         <th>Submitted on</th>
       </thead>
       <tbody>
@@ -84,6 +86,8 @@
             <td class="delivered-as-promised <%= classes[csat.survey.delivered_as_promised.to_s] %>"><%= csat.survey.delivered_as_promised %></td>
             <td class="delivered-on-time <%= classes[csat.survey.delivered_on_time.to_s] %>"><%= csat.survey.delivered_on_time %></td>
             <td class="satisfaction <%= classes[csat.survey.satisfaction.to_s] %>"><%= csat.survey.satisfaction %></td>
+            <td class=""><%= csat.survey.pros %></td>
+            <td class=""><%= csat.survey.improvements %></td>
             <td class="submitted-on"><%= csat.created_at.strftime('%b %d, %Y') %></td>
           </tr>
         <% end %>
